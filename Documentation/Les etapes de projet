@@ -1,0 +1,173 @@
+Les étapes de notre projet : 
+1.Cadrage : Quel problème le projet résout-il , pour qui et 
+quelles questions les données doivent -elles permettre de répondre? 
+
+2.Source et contrat de données:d'où viennent les données sous
+quel format,à quelle fréquence , avec quels champ obligatoires?
+
+3.Architecture: un schema des composants (Extraction , rawn
+staging,base finale,orchestration ,dashboard)
+
+4.Modèle de données : les tables , les clés , la clé d'unicité que
+nous avons vue .
+
+5.Structure de dépot et environnement : l'arborescence,
+docker-compose , la configuration.
+
+6.Squelette du pipeline: Le DaG avec des taches vides , qui 
+tourne de bout en bout 
+
+7.Implémentation tache par tache: avec des tests à chaque
+étape.
+
+
+
+Web Scraping commercial / Price Intelligence
+I.Le cadrage : 
+
+OBJECTIF : Suivre l'évolution de prix de produits sur plusieurs
+sites et repérer les baisses.
+
+UTILISATEUR FINAL : Un analyste de données , qui interroge le 
+prix et leur évolution.
+
+SOURCES :2 à 3 APIs,4 produits au départ .
+
+FREQUENCE: à décider.
+
+Les questions métiers de projets??
+1. Quel est le dernier prix connu de chaque prod , par site ? 
+2. Le prix d'un produit augument-t-il ou diminue-t-il(variation par
+rapport à la collecte précedente)?
+3. Quel est le prix moyen d'un produit sur une période? 
+4. Quel site est le plus cher/le moins cher pour chaque produit?  
+
+Le modèle de données : 
+chaque questions métier appelle une table : 
+
+dim_product: id_produit,nom,catégorie.
+dim_source: id_source, nom du site/API 
+dim_price: id-produit,id_source,date_collete,prix,devise
+
+    . clé_d'unicité(id_produit,id_source,date_collecte) '
+
+stg_price: la table de staging , vidée à chaque exécution .
+rejected_rows: les lignes invalides avec la raison du rejet 
+pipeline_runs :lejournal d'exécutions '.
+
+4 questions deviennent de la requetes simples :
+. Dernier prix -> Fonction de fenetre (ROW_NUMBER) ou MAX(date);
+.hausse ou baisse -> LAG() pour comparer avec la collecte précédente
+.Moyenne ->AVG() avec un filtre de date 
+.Site le plus cher ->RANK() par produit .
+
+---- fréquence de collecte de notre projet : 2 fois par jour
+ça veut dire : A chaque 12 heures . 
+Donc notre clé d'unicité , va contenir date_heure _collecte 
+ET par la suite notre clé devient : 
+(id_prod,id_source,date_heure_collecte). '
+---------------------------------------------------
+
+Piège a évité----------------Utilisation de la fonctio  now()
+Utilisation de datatime.now() lors de relances Airflow modifie
+l'horodatage à chaque essai , ce qui crée des doublons et casse 
+l'idempoetnce .
+La solution donc est d'utilisé (data_interval_start) ,qui est
+identique à chaque relance d'un meme créneu , on stock deux colonnes : 
+
+-Collected_at : le créneau logique comme (8:00), qui fait partie 
+de clé . (la colonne qui assure l'edempotence)'
+-ingested_at:l'heure réelle d'insertion, pour l'audit(hors clé) 
+
+-------------Structure de projet :'
+
+
+price-tracker/
+├── docker-compose.yml
+├── .env.example             
+├── README.md
+├── config/
+│   ├── products.yml          
+│   └── sources.yml           # APIs, URLs, clés
+├── dags/
+│   └── price_pipeline.py     # le DAG : seulement l'orchestration'
+├── src/
+│   ├── extract.py            # appels API (une fonction par source)
+│   ├── raw_store.py          # sauvegarde JSON brut
+│   ├── validate.py           # règles de qualité 
+│   └── load.py               # staging + upsert
+├── sql/
+│   ├── schema.sql            # création des tables
+│   └── analytics.sql         # tes 4 requêtes métier
+├── data/
+│   └── raw/                  # JSON bruts, ignorés par Git
+├── app/
+│   └── dashboard.py          # Streamlit
+└── tests/
+    └── test_validate.py
+
+
+Les fichiers de docker-entrypoint-initdb.d s'exécutent
+ uniquement à la première création du volume. Si on
+ modifies schema.sql plus tard, il faudra faire docker 
+ compose down -v (qui efface les données) puis relancer.
+	
+------------------Code PYTHON .
+
+extract.py : appelle L'API (avec réssais) et garde seulement
+les champs utiles.
+
+raw_store.py :sauvegarde le JSON brut , un fichier par créneau;
+load.py : charge dans le staging puis fait l'UPSERT dans
+fact_price.py , avec rollback en cas d'erreur .
+run_local.py : lance tout le chemin.
+
+--------------------Les idées à retenir :
+-- idempoetnce:relance un job ne crée pas le doublons , gràce à
+la clé d'unicité et à l'UPSERT.
+-- Le  prix n'a pas dans la clé : l clé dir quoi et quand , le prix est 
+une valeur mésuré.
+--Couche_raw: oN GARDE LE json brut pour pouvoir rejouer
+sans rappeler L'API.
+--Staging + Transaction : tout passe ou rien .
+--Decimal : pour l'argent , jamais float .
+--Réessais SUR LES ERREURS temporaires (API et base de données).
+
+
+--------------Commendes utilisé
+Démarrer la base et attendre qu'elle soit prét : 
+    docker compose up -d --wait 
+Voir si la base est prete : 
+    docker compose ps (attendre healty)
+Voir les messages de la base :
+    docker compose logs db --tail 20
+Arreter la base  :
+    docker comose down 
+Tout effacer et repartir à zéro :
+    docker compose down -v
+Lancer le pipeline : 
+     python run_local.py
+Regarde les prix de bd: 
+      docer exec -it pricetracker-db mysql -utracker -p pricetracker
+      -e " SELECT * FROM fact_price;"
+Voir une Structure d'une table : 
+     docker exec -it pricetracker-db mysql -utracker
+     -p pricetracker "DESCRIBE stg_price;"
+
+------------Les APIs utilisés
+FakeStoreAPI : Elle simule un site e-commerce (produits , utilisateurs , paniers, authentification )
+avec des images et de prix fictifs.
+
+Platzi Fake Store API : C'es le meme principe , crée par la platforme
+de formation PLATZI ,souvent utilisé dan leurs cours de React ou de dev web 
+
+
+------------ Utilisation de Airflow : 
+Un DAG est une liste de taches avec un ordre , Airflow lance à 8H et 20H ,
+relance celle qui échouent , et montre le résultat dans une page web .
+
+orchestration fait par le script , run_local.py :
+
+Extract_raw  -->  load staging  -->  upset_final 
+(API ->JSON)       (JSON->staging)    (staging->fact_price)
+

@@ -1,0 +1,12 @@
+La couche RAW (Les données brutes ):
+
+Règles :Avant toute transformation , sauvgarde ce qu'on a
+reçu , tel quel 
+
+data/raw/2026-10-18/site_a_14h00.json
+
+Pourquoi? 
+-Si on découvert un bug e transformation on rejoues depuis le raw sans re-scraper , 
+-Garde de trçabilité.
+-Sépaation ente la récupératin et la transformation.
+

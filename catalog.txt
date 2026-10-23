@@ -1,0 +1,106 @@
+
+=== dummyjson (40 produits) ===
+   1 |     9.99 | Essence Mascara Lash Princess
+   2 |    19.99 | Eyeshadow Palette with Mirror
+   3 |    14.99 | Powder Canister
+   4 |    12.99 | Red Lipstick
+   5 |     8.99 | Red Nail Polish
+   6 |    49.99 | Calvin Klein CK One
+   7 |   129.99 | Chanel Coco Noir Eau De
+   8 |    89.99 | Dior J'adore
+   9 |    69.99 | Dolce Shine Eau de
+  10 |    79.99 | Gucci Bloom Eau de
+  11 |  1899.99 | Annibale Colombo Bed
+  12 |  2499.99 | Annibale Colombo Sofa
+  13 |   299.99 | Bedside Table African Cherry
+  14 |   499.99 | Knoll Saarinen Executive Conference Chair
+  15 |   799.99 | Wooden Bathroom Sink With Mirror
+  16 |     1.99 | Apple
+  17 |    12.99 | Beef Steak
+  18 |     8.99 | Cat Food
+  19 |     9.99 | Chicken Meat
+  20 |     4.99 | Cooking Oil
+  21 |     1.49 | Cucumber
+  22 |    10.99 | Dog Food
+  23 |     2.99 | Eggs
+  24 |    14.99 | Fish Steak
+  25 |     1.29 | Green Bell Pepper
+  26 |     0.99 | Green Chili Pepper
+  27 |     6.99 | Honey Jar
+  28 |     5.49 | Ice Cream
+  29 |     3.99 | Juice
+  30 |     2.49 | Kiwi
+  31 |     0.79 | Lemon
+  32 |     3.49 | Milk
+  33 |     4.99 | Mulberry
+  34 |     7.99 | Nescafe Coffee
+  35 |     2.29 | Potatoes
+  36 |    19.99 | Protein Powder
+  37 |     1.99 | Red Onions
+  38 |     5.99 | Rice
+  39 |     1.99 | Soft Drinks
+  40 |     3.99 | Strawberry
+
+=== fakestoreapi (20 produits) ===
+   1 |   109.95 | Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops
+   2 |     22.3 | Mens Casual Premium Slim Fit T-Shirts 
+   3 |    55.99 | Mens Cotton Jacket
+   4 |    15.99 | Mens Casual Slim Fit
+   5 |      695 | John Hardy Women's Legends Naga Gold & Silver Dragon Station
+   6 |      168 | Solid Gold Petite Micropave 
+   7 |     9.99 | White Gold Plated Princess
+   8 |    10.99 | Pierced Owl Rose Gold Plated Stainless Steel Double
+   9 |       64 | WD 2TB Elements Portable External Hard Drive - USB 3.0 
+  10 |      109 | SanDisk SSD PLUS 1TB Internal SSD - SATA III 6 Gb/s
+  11 |      109 | Silicon Power 256GB SSD 3D NAND A55 SLC Cache Performance Bo
+  12 |      114 | WD 4TB Gaming Drive Works with Playstation 4 Portable Extern
+  13 |      599 | Acer SB220Q bi 21.5 inches Full HD (1920 x 1080) IPS Ultra-T
+  14 |   999.99 | Samsung 49-Inch CHG90 144Hz Curved Gaming Monitor (LC49HG90D
+  15 |    56.99 | BIYLACLESEN Women's 3-in-1 Snowboard Jacket Winter Coats
+  16 |    29.95 | Lock and Love Women's Removable Hooded Faux Leather Moto Bik
+  17 |    39.99 | Rain Jacket Women Windbreaker Striped Climbing Raincoats
+  18 |     9.85 | MBJ Women's Solid Short Sleeve Boat Neck V 
+  19 |     7.95 | Opna Women's Short Sleeve Moisture
+  20 |    12.99 | DANVOUY Womens T Shirt Casual Cotton Short
+
+=== platzi (40 produits) ===
+   9 |       61 | Classic Navy Blue Baseball Cap
+  10 |       86 | Classic Blue Baseball Cap
+  11 |       35 | Classic Red Baseball Cap
+  12 |       58 | Classic Black Baseball Cap
+  13 |       84 | Classic Olive Chino Shorts
+  14 |       43 | Classic High-Waisted Athletic Shorts
+  15 |       39 | Classic White Crew Neck T-Shirt
+  16 |       73 | Classic White Tee - Timeless Style and Comfort
+  17 |       35 | Classic Black T-Shirt
+  18 |       69 | Sleek White & Orange Wireless Gaming Controller
+  19 |       44 | Sleek Wireless Headphone & Inked Earbud Set
+  20 |       28 | Sleek Comfort-Fit Over-Ear Headphones
+  21 |       48 | Efficient 2-Slice Toaster
+  22 |       10 | Sleek Wireless Computer Mouse
+  23 |       43 | Sleek Modern Laptop with Ambient Lighting
+  24 |       97 | Sleek Modern Laptop for Professionals
+  25 |       39 | Stylish Red & Silver Over-Ear Headphones
+  26 |       27 | Sleek Mirror Finish Phone Case
+  27 |       16 | Sleek Smartwatch with Vibrant Display
+  28 |       53 | Sleek Modern Leather Sofa
+  29 |       24 | Mid-Century Modern Wooden Dining Table
+  30 |       66 | Elegant Golden-Base Stone Top Dining Table
+  31 |       25 | Modern Elegance Teal Armchair
+  32 |       67 | Elegant Solid Wood Dining Table
+  33 |       49 | Modern Minimalist Workstation Setup
+  34 |       71 | Modern Ergonomic Office Chair
+  35 |       39 | Futuristic Holographic Soccer Cleats
+  36 |       39 | Rainbow Glitter High Heels
+  38 |       27 | Vibrant Runners: Bold Orange & Blue Sneakers
+  39 |       84 | Vibrant Pink Classic Sneakers
+  40 |       68 | Futuristic Silver and Gold High-Top Sneaker
+  41 |       36 | Futuristic Chic High-Heel Boots
+  42 |       53 | Elegant Patent Leather Peep-Toe Pumps with Gold-Tone Heel
+  43 |       17 | Elegant Purple Leather Loafers
+  44 |       39 | Classic Blue Suede Casual Shoes
+  45 |       22 | Sleek Futuristic Electric Bicycle
+  46 |       37 | Sleek All-Terrain Go-Kart
+  47 |       73 | Radiant Citrus Eau de Parfum
+  48 |       48 | Sleek Olive Green Hardshell Carry-On Luggage
+  49 |       61 | Chic Transparent Fashion Handbag

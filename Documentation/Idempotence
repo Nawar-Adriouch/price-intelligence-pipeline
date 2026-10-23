@@ -1,0 +1,53 @@
+Problèmatique : 
+Imgine que notre DAG tourne chaque jour récupère 500 prix,
+et les insères dans MYSQL , un jour , la tache de chargements 
+plante dans les 300 lignes ,et airflow la relance ,Deux cas possibles:
+
+Pipeline non idempotent : Les 300 premières lignes sont
+insèrées une deuxième fois , on a donc des doulons , et 
+nos moyens de prix sont fausses.
+
+Pipeline idempotent : On relence 1 fois ou 10 ,mais le 
+résultat final est identique . Pourquoi ??
+
+On dit une opération est idempotent si l'exécuter plusieurs 
+fois donne le meme résultat q'une seule exécution .c'est la
+propriété la plus importante d'un pipeline fiable . 
+
+LES TROIS OUTILS POUR Y ARRIVER :
+a/: Clé d'unicité : Il faut ce qui identifie une observation 
+d'une mnière unique .
+Exemple : 
+un prix = (produit, source , date de collecte)
+On la déclare dans MYSQL , pour que la base elle meme refuse 
+les doublons . 
+
+ALTER TABLE prices 
+ADD CONSTRAINT uq_price UNIQUE (produit_id , source , collected_date )
+
+Si tu collectes plusieurs fois par jour, remplace collected_date par 
+un horodatage arrondi (par exemple à l'heure).
+
+b/: L'insert ou update
+Au lieu d'un simple INSERT , on dit "insère et si la clè 
+dèja existe , mets à jour "
+
+INSERT INTO prices (produit_id,source,collected_date,price)
+VALUES(%s,%s,%s)
+ON DUPLICATE KEY UPDATE price =VALUES(price)
+
+-En PostgreSQL, l'équivalent est ON CONFLICT (...) DO UPDATE.
+
+c/: La table de staging : 
+On ne charge jamais directement dans la table finale,
+le chemin donc est : 
+
+   SOURCE -> [RAW] -> [Staging] ->[Table_finale]
+
+Staging : c'est une table temporaire , vidée à chaque exécustion 
+, où on charge tout puis on valide 
+
+chargement Final : une seule tansaction qui copie le staging 
+vers la table finale , avec UPSERT soit tout passe avec 
+COMMIT , soit rien avec ROLLBCK 
+

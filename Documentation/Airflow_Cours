@@ -1,0 +1,39 @@
+
+Airflow , Définition : est une platforme open source permettant 
+de développer , planifier surveiller des flux de travail
+
+Cas d'usage :
+- Pipeline de données traditionnels ou évenementiels
+-Apprentissage automatique ML 
+-Entrainement des modeles , et  IA les agents (LLM )
+
+Interface: 
+Il dispose une interface d'utilisation par l'utilisteur
+web , permettant de visualiser gérer débouger les workflow.
+
+DAGS (Directed ACYCLIC Graphs):DAG est le module central
+ qui résume tout ce qui est necessaire à l'execution 
+ d'un workflow .
+
+Planning: le moment où le workflow doit s'éxécuter
+Taches(Tsks): Les unités de travail discrètes exécutées par
+des workers.
+
+Dépendances : l'ordre et les conditions d'éxecution des taches 
+
+Callbacks (Rappel): les actions à effectuer lorsque le
+workflow se termine 
+
+Pourquoi l'utiliser ? Idéal si vos workflows ont
+un début et une fin clairs, s'exécutent selon un
+planning régulier, et si vous préférez coder plutôt 
+que de cliquer sur des interfaces graphiques. Il permet
+aussi de relancer uniquement les tâches échouées pour
+minimiser les coûts et le temps.
+
+Pourquoi ne pas l'utiliser ? Si vous préférez une 
+configuration entièrement graphique sans avoir 
+à écrire de code Python, Airflow n'est pas l'outil 
+le plus adapté puisque la définition des flux passe 
+nécessairement par du code.
+

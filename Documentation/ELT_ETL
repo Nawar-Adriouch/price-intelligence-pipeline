@@ -1,0 +1,43 @@
+ETL :on transforme avant le chargement de donnees (le cas de 
+notre projet)
+
+ELT: On charge d'abord les données brutes dans la bases , 
+puis on transforme en SQL à l'intérieur de la base 
+
+Mais on peux appliquer les deux : 
+d'après cette schema : 
+
+EXTRACT -> SAVE_RAW -> LOAD_STAGING -> VALIDATE -> UPSERT_FINAL
+
+
+
+QST1: Pourquoi un simple INSERT
+ rend-il un pipeline non idempotent ?
+
+UN insert simple ne vérifie pas la ligne si dèjà existe ,
+ La base n'a aucune contrainte d'unicité et que l INSERT 
+n'a aucun mécanisme de gestion de conflit 
+
+SQT2: Dans ton projet, quelle est ta clé d'unicité ? Un produit peut-il
+avoir deux prix valides le même jour ?
+
+La règle : la clé identifier ce qu'on observe (quel prod,où,quand). les valeurs
+mésurées, comme le prix,restent en dehors
+de la clé.
+
+Aussi si on a une collecte par jour :la date suffit 
+sinon plusieurs collecte par jour n on utilisons un 
+horodatage arrondi (à l'heure par exemple ) ou un identifiat
+d'execution de DAG 
+
+QST3:Que se passe-t-il si le DAG échoue entre 
+load_staging et upsert_final ?
+
+Si le DAG échoue entre load_staging, et upsert_final, la table
+finale n'a ps été touchée 
+
+.le staging doit etre validé au début de load_staging , sinon 
+relance emplie les donnees.
+
+.upsert_final DOIT ETRE dans une transaction :si elle échoue
+en cours de route , ROLLBACK et la table finale reste son état.
